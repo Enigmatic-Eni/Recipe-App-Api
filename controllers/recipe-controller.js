@@ -26,7 +26,7 @@ const getSingleRecipeById = async(req, res)=>{
         if(!CurrentRecipe){
             res.status(404).json({
                 success : false,
-                message : "This recipe cannot be found in the database, try another database"
+                message : "This recipe cannot be found in the database, try another ID"
 
             })
         }else{
@@ -36,6 +36,32 @@ const getSingleRecipeById = async(req, res)=>{
             })
         }
         
+    } catch (e) {
+        console.log(e);
+        res.status(500).json({
+            success: false,
+            message : "Something went wrong, please try again"
+        })
+    }
+}
+
+const deleteRecipe = async(req, res)=>{
+    try {
+        const getCurrentRecipe = req.params.id;
+        const deletedBook = await Recipe.findByIdAndDelete(getCurrentRecipe)
+
+        if(!deletedBook){
+            res.status(404).json({
+                success : false,
+                message : "Recipe with this ID does not exist"
+            })
+        }else{
+            res.status(200).json({
+                success : true,
+                message : "Book deleted successfully"
+            })
+        }
+
     } catch (e) {
         console.log(e);
         res.status(500).json({
@@ -67,6 +93,8 @@ const addNewRecipe = async(req, res)=>{
     }
 }
 
+
+
 module.exports = {
-    addNewRecipe, getAllRecipe, getSingleRecipeById,
+    addNewRecipe, getAllRecipe, getSingleRecipeById, deleteRecipe
 }
