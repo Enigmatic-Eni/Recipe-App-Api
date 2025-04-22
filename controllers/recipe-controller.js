@@ -19,6 +19,31 @@ const getAllRecipe = async(req, res)=>{
         
     }
 }
+const getSingleRecipeById = async(req, res)=>{
+    try {
+        const getCurrentRecipeById = req.params.id;
+        const CurrentRecipe = await Recipe.findById(getCurrentRecipeById);
+        if(!CurrentRecipe){
+            res.status(404).json({
+                success : false,
+                message : "This recipe cannot be found in the database, try another database"
+
+            })
+        }else{
+            res.status(200).json({
+                success : true,
+                data : CurrentRecipe
+            })
+        }
+        
+    } catch (e) {
+        console.log(e);
+        res.status(500).json({
+            success: false,
+            message : "Something went wrong, please try again"
+        })
+    }
+}
 
 const addNewRecipe = async(req, res)=>{
     try{
@@ -43,5 +68,5 @@ const addNewRecipe = async(req, res)=>{
 }
 
 module.exports = {
-    addNewRecipe, getAllRecipe
+    addNewRecipe, getAllRecipe, getSingleRecipeById,
 }
