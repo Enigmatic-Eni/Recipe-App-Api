@@ -71,6 +71,38 @@ const deleteRecipe = async(req, res)=>{
     }
 }
 
+const updateRecipe = async(req, res)=>{
+    try {
+        const updateRecipeFormData = req.body;
+        const getCurrentRecipeId = req.params.id;
+
+        const updatedRecipe = await Recipe.findByIdAndUpdate(
+            getCurrentRecipeId,
+            updateRecipeFormData,
+            {new: true}
+        );
+        if(!updatedRecipe){
+            return res.status(404).json({
+                success: false,
+                message: "Recipe with this ID cannot be found"
+            });
+        }else{
+            res.status(200).json({
+                success : true,
+                message : "Recipe updated successfully",
+                data : updateRecipe
+            })
+        }
+        
+    } catch (e) {
+        console.log(e);
+        res.status(500).json({
+            success: false,
+            message : "Something went wrong, please try again"
+        })
+    }
+}
+
 const addNewRecipe = async(req, res)=>{
     try{
         const newRecipeFormData = req.body;
@@ -96,5 +128,5 @@ const addNewRecipe = async(req, res)=>{
 
 
 module.exports = {
-    addNewRecipe, getAllRecipe, getSingleRecipeById, deleteRecipe
+    addNewRecipe, getAllRecipe, getSingleRecipeById, deleteRecipe, updateRecipe
 }
