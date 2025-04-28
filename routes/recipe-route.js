@@ -4,10 +4,10 @@ const {getAllRecipe, addNewRecipe, getSingleRecipeById, deleteRecipe, updateReci
 
 const router = express.Router();
 
-router.get('/get', getAllRecipe);
-router.post("/add", addNewRecipe);
-router.get("/get/:id", getSingleRecipeById);
-router.delete("/delete/:id", deleteRecipe);
-router.put("/update/:id", updateRecipe)
+router.get('/', getAllRecipe);
+router.post("/", addNewRecipe);
+router.get("/:id", getSingleRecipeById);
+router.delete("/:id", deleteRecipe);
+router.put("/:id", updateRecipe)
 
 module.exports = router; 
